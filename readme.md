@@ -2,10 +2,10 @@
 > 主要是 Node.js 使用数据库的学习。  
 > 数据库包含 mongodb, mysql, elasticsearch, redis...  
 > 内容包含安装，配置，连接，基本 CRUD，索引...  
-> 系统主要以 Mac OS X 10.X 为主
+> 系统主要以 Mac OS X 10.X 为主  
 
 ## mongodb  
-homebrew安装
+> homebrew安装  
 
 ## mysql  
 1. 下载安装 [MySQL](https://dev.mysql.com/downloads/mysql/)  
@@ -63,6 +63,7 @@ homebrew安装
   ```
 
 3. 验证文件  
+> 非必需  
   ```
   sha1sum elasticsearch-5.2.2.tar.gz
   sha1sum elasticsearch-5.2.2.zip
