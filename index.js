@@ -2,7 +2,7 @@
  *  entry
  */
 
-const mongo = require('./mongo/index');
+const mongo = require('./mongodb/index');
 
 const args = process.argv.slice(2);
 console.log(args);
