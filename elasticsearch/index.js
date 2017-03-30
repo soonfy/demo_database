@@ -1,8 +1,29 @@
 const elasticsearch = require('elasticsearch');
 
 let client = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace'
+  hosts: [{
+    host: 'localhost',
+    port: '9200',
+    country: 'zh-cn'
+  }],
+  // httpAuth: 'user:pass',
+  log: [{
+    type: 'stream',
+    level: 'error',
+    stream: process.stdout
+  }, {
+      type: 'file',
+      level: 'trace',
+      path: './logs/elasticsearch.log'
+  }],
+  // sniffOnStart: true,
+  // sniffInterval: 1000 * 60,
+  // sniffOnConnectionFault: true,
+  // maxRetries: 10,
+  // requestTimeout: 1000 * 60,
+  // deadTimeout: 1000 * 60,
+  // pingTimeout: 1000 * 10,
+  // apiVersion: '5.x'
 });
 
 // client.ping({
@@ -10,15 +31,16 @@ let client = new elasticsearch.Client({
 // }, function (error) {
 //   if (error) {
 //     console.error(error);
-//     console.error('elasticsearch cluster is down!');
+//     console.error('elasticsearch ping error.');
 //   } else {
-//     console.log('All is well');
+//     console.log('elasticsearch ping suc.');
 //   }
 // });
 
 // client.index({
 //   index: 'idemo',
 //   type: 'tdemo',
+//   id: 1,
 //   body: {
 //     name: 'soonfy',
 //     age: Math.floor(Math.random() * 20)
@@ -47,9 +69,8 @@ let client = new elasticsearch.Client({
 //   }
 // });
 
-// client.search()全属性匹配
+// client.search()检索所有索引
 // client.search({
-//   q: 'soonfy'
 // }, function (error, data) {
 //   if (error) {
 //     console.error(error);
@@ -59,6 +80,7 @@ let client = new elasticsearch.Client({
 //   }
 // })
 
+// client.search()检索指定字段值
 // client.search({
 //   q: 'name:soonfy'
 // }, function (error, data) {
@@ -82,3 +104,43 @@ let client = new elasticsearch.Client({
 //     console.log(data);
 //   }
 // })
+
+client.bulk({
+  body: [
+    {
+      index: {
+        _index: 'idemo',
+        _type: 'tdemo',
+        _id: 1
+      }
+    }, {
+      title: 'soonfy'
+    }, {
+      update: {
+        _index: 'idemo',
+        _type: 'tdemo',
+        _id: 2
+      }
+    }, {
+      doc: {
+        title: 'soonfy'
+      }
+    }, {
+      delete: {
+        _index: 'idemo',
+        _type: 'tdemo',
+        _id: 1
+      }
+    }
+  ]
+}, (error, res) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(res);
+    let items = res.items;
+    items.map(x => {
+      console.log(x);
+    })
+  }
+})
