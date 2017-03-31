@@ -390,9 +390,150 @@
   http://localhost:9200/_analyze?analyzer=standard&pretty=true&text=soonfy胡歌
   ```
 
-2. 
+2. 插件管理  
+> [默认配置路径](https://www.elastic.co/guide/en/elasticsearch/reference/5.3/zip-targz.html#zip-targz-layout)  
+
+  * 帮助命令  
+  bin/elasticsearch-plugin -h  
+  * 列举已安装插件  
+  bin/elasticsearch-plugin list  
+  * 安装插件  
+  bin/elasticsearch-plugin install [plugin-name]  
+  * 移除插件
+  bin/elasticsearch-plugin remove [plugin-name]  
+  * 从链接或者文件安装插件  
+  bin/elasticsearch-plugin install [url/file-path]  
+  * 更新插件  
+  remove -> install  
+  * 自定义配置路径  
+  bin/elasticsearch-plugin -Epath.conf=/path/to/custom/config/dir install [plugin-name]  
+  * 代理安装插件  
+  ES_ JAVA_OPTS="-Dhttp.proxyHost=host_name -Dhttp.proxyPort=port_number -Dhttps.proxyHost=host_name -Dhttps.proxyPort=https_ port_number" bin/elasticsearch-plugin install [plugin-name]  
+  * 强制启用插件  
+  在 config/elasticsearch.yml 文件添加 plugin.mandatory: [plugin-name]  
+
+3. 常用插件  
+  * [bigdesk](http://bigdesk.org/)  
+  > 监控es集群状态  
+  ```
+  bin/elasticsearch-plugin install lukas-vlcek/bigdesk/2.5.0
+  ```
+
 
 ## JavaScript API  
+[params] - method, body, ignore, filterPath  
+[callback] - (error, response, status) => {}  
 
 1. client.bulk([params, [callback]])  
-> 在单个批量请求中执行多个创建、索引、删除和更新请求  
+> 在单个请求中执行多个索引和删除操作，更新操作不执行  
+
+2. client.clearScroll([params, [callback]])  
+>
+
+3. client.count([params, [callback])  
+> 统计类，索引，类型，查询匹配文档总数  
+
+4. client.countPercolate([params, [callback])  
+>
+
+5. client.create([params, [callback])  
+> 索引一个文档，如果index/type/id都相同，报错  
+
+6. client.delete([params, [callback]])  
+> 从特定的索引中根据id删除一个文档  
+
+7. client.deleteByQuery([params, [callback]])  
+> 从多个索引或者类型中根据条件删除文档  
+
+8. client.deleteScript([params, [callback]])  
+> 
+
+9. client.deleteTemplate([params, [callback]])  
+> 
+
+10. client.exists([params, [callback]])  
+> 从特定的索引中判断id文档是否存在  
+
+11. client.explain([params, [callback]])  
+> 解释从特定的索引中检索id文档的评分  
+
+12. client.fieldStats([params, [callback]])  
+> 
+
+13. client.get([params, [callback]])  
+> 从特定的索引中根据id检索一个文档  
+
+14. client.getScript([params, [callback]])  
+> 
+
+15. client.getTemplate([params, [callback]])  
+> 
+
+16. client.index([params, [callback]])  
+> 索引一个文档，如果id存在，就更新文档  
+
+17. client.info([params, [callback]])  
+> 返回 elasticsearch 集群的信息  
+
+18. client.mget([params, [callback]])  
+> 根据多个index/type/index 检索多个文档  
+
+19. client.mpercolate([params, [callback]])  
+> 
+
+20. client.msearch([params, [callback]])  
+> 一个查询请求检索多个条件，匹配 + 过滤两个JSON组成一次检索  
+
+21. client.msearchTemplate([params], [callback])  
+>
+
+22. client.mtermvectors([params, [callback]])  
+>
+
+23. client.percolate([params, [callback]])  
+>
+
+24. client.ping([params, [callback]])  
+> 检测 elasticsearch 集群  
+
+25. client.putScript([params, [callback]])  
+>
+
+26. client.putTemplate([params, [callback]])  
+>
+
+27. client.reindex([params, [callback]])  
+>
+
+28. client.reindexRethtottle([params, [callback]])  
+>
+
+29. client.renderSearchTemplate([params, [callback]])  
+>
+
+30. client.scroll([params, [callback]])  
+> 在 client.search() 方法中，时间段滚动检索文档  
+
+31. client.search([params, [callback]])  
+> 不同条件检索文档，匹配，聚合，切片，高亮等  
+> [elastic.js](https://github.com/fullscale/elastic.js), [esq](https://github.com/holidayextras/esq), [bodybuilder](https://github.com/danpaz/bodybuilder) body生成包  
+
+32. client.searchShards([params, [callback]])  
+>
+
+33. client.searchTemplate([params, [callback]])  
+>
+
+34. client.suggest([params, [callback]])  
+> 在index中根据查询词推荐更准确的查询词，不能限定type  
+
+35. client.termvectors([params, [callback]])  
+>
+
+36. client.update([params, [callback]])  
+> 更新部分字段内容或者执行更新脚本  
+
+37. client.updateByQuery([params, [callback]])  
+>
+
+
