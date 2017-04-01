@@ -385,9 +385,23 @@
 
 ## 常用技巧  
 
-1. 分词  
+1. 请求  
+  * 分词  
   ```
-  http://localhost:9200/_analyze?analyzer=standard&pretty=true&text=soonfy胡歌
+  // 默认标准
+  http://localhost:9200/_analyze?analyzer=standard&pretty=true&text=soonfy中华人民共和国
+  // analysis-smartcn
+  http://localhost:9200/_analyze?analyzer=smartcn&pretty=true&text=soonfy中华人民共和国
+  // ik, ik_smart, ik_max_word
+  http://localhost:9200/_analyze?analyzer=ik_smart&pretty=true&text=soonfy中华人民共和国
+  http://localhost:9200/_analyze?analyzer=ik_max_word&pretty=true&text=soonfy中华人民共和国
+  ```
+
+  * 集群状态  
+  ```
+  http://localhost:9200/_cluster/health
+  http://localhost:9200/_cluster/state
+  http://localhost:9200/_cluster/stats
   ```
 
 2. 插件管理  
@@ -413,12 +427,60 @@
   在 config/elasticsearch.yml 文件添加 plugin.mandatory: [plugin-name]  
 
 3. 常用插件  
+
+  * [elasticsearch-head](https://github.com/mobz/elasticsearch-head)  
+  > 操作 elasticsearch  
+  ```
+  git clone git://github.com/mobz/elasticsearch-head.git
+  cd elasticsearch-head
+  npm install
+  npm run start
+  open http://localhost:9100/
+  ```
+
   * [bigdesk](http://bigdesk.org/)  
   > 监控es集群状态  
   ```
-  bin/elasticsearch-plugin install lukas-vlcek/bigdesk/2.5.0
+  git clone git@github.com:lukas-vlcek/bigdesk.git
+  open bigdesk/index.html
   ```
 
+  * [analysis-ik](https://github.com/medcl/elasticsearch-analysis-ik)  
+  > ik 中文分词  
+  ```
+  open https://github.com/medcl/elasticsearch-analysis-ik/releases
+  download ik${version}
+  unzip elasticsearch-*-ik.zip
+  cp *ik plugins/analysis-ik
+  ```
+
+4. 插件坑  
+
+  * head 插件打开9100连接不上es集群  
+  > 打开命令行显示跨域问题  
+  > 解决: 修改es 和 head的配置文件  
+  ```
+  // es 配置. 在 config/elasticsearch.yml 文件末尾添加.键值对中间必须加一个空格.
+  http.cors.enabled: true
+  http.cors.allow-origin: "*"
+  // head 配置. 在 head/Gruntfile.js 文件的connect属性添加hostname.
+  connect: {
+    server: {
+      options: {
+        hostname: '*',
+        port: 9100,
+        base: '.',
+        keepalive: true
+      }
+    }
+  ```
+
+  * bigdesk 插提示错误 Bigdesk may not work correctly!
+  > 解决: 旧版本的bigdesk 只支持0.X或者1.X, 5.X 需要新版本的bigdesk  
+  ```
+  git clone git@github.com:hlstudio/bigdesk.git
+  open bigdesk/_site/index.html
+  ```
 
 ## JavaScript API  
 [params] - method, body, ignore, filterPath  

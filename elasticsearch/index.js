@@ -405,35 +405,35 @@ let client = new elasticsearch.Client({
 //   }
 // })
 
-client.search({
-  index: 'idemo',
-  type: 'tdemo'
-}, (error, resp, status) => {
-  console.log(status);
-  if (error) {
-    console.error(error);
-  } else {
-    console.log(resp);
-    console.log(resp.hits.hits);
-  }
-})
+// client.search({
+//   index: 'idemo',
+//   type: 'tdemo'
+// }, (error, resp, status) => {
+//   console.log(status);
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.log(resp);
+//     console.log(resp.hits.hits);
+//   }
+// })
 
-client.search({
-  index: 'idemo',
-  type: 'tdemo',
-  body: {
-    query: {
-      match: {
-        text: '中国'
-      }
-    }
-  }
-}, (error, resp, status) => {
-  console.log(status);
-  if (error) {
-    console.error(error);
-  } else {
-    console.log(resp);
-    console.log(resp.hits.hits);
-  }
-})
+// client.search({
+//   index: 'idemo',
+//   type: 'tdemo',
+//   body: {
+//     query: {
+//       match: {
+//         text: '中国'
+//       }
+//     }
+//   }
+// }, (error, resp, status) => {
+//   console.log(status);
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.log(resp);
+//     console.log(resp.hits.hits);
+//   }
+// })
